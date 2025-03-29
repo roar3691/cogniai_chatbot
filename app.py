@@ -14,11 +14,12 @@ import base64
 import requests
 
 # Environment Variables (Set in Hugging Face Spaces secrets or replace here)
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MONGO_URI = os.getenv("MONGO_URI")
-SITE_NAME = "CogniChat Advanced"
+OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY", "your_openrouter_api_key")
+GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY", "your_google_api_key")
+SEARCH_ENGINE_ID = st.secrets.get("SEARCH_ENGINE_ID", "your_search_engine_id")
+MONGO_URI = st.secrets.get("MONGO_URI", "your_mongo_uri")
+SITE_URL = st.secrets.get("SITE_URL", "https://cogniaichatbot-njrm4zgp25bhfwcqvpgjpw.streamlit.app")
+SITE_NAME = st.secrets.get("SITE_NAME", "CogniChat Advanced")
 
 # OpenRouter Clients
 gemini_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
