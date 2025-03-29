@@ -47,10 +47,10 @@ import PyPDF2
 import bcrypt
 
 # Load environment variables
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", "AIzaSyBaCx9eHQYUjaCH-iJdzmR9LCszYKnWTtc")
-SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID", "e6da2fcb52c994349")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "your_openrouter_api_key_here")  # Replace or set in secrets
-MONGO_URI = os.getenv("MONGO_URI", "mongodb+srv://raghuyanala:Kanna%401249@cluster0.wkvyw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")  # Replace or set in secrets
+MONGO_URI = os.getenv("MONGO_URI")
 
 # MongoDB Setup (aligned with reference)
 client = MongoClient(MONGO_URI)
