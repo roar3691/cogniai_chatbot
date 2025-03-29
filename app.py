@@ -13,13 +13,13 @@ import PyPDF2
 import base64
 import requests
 
-# Environment Variables (Set in Hugging Face Spaces secrets or replace here)
-OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY")
-GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY")
-SEARCH_ENGINE_ID = st.secrets.get("SEARCH_ENGINE_ID")
-MONGO_URI = st.secrets.get("MONGO_URI")
-SITE_URL = st.secrets.get("SITE_URL")
-SITE_NAME = st.secrets.get("SITE_NAME")
+# Environment Variables (Set in Streamlit Cloud secrets)
+OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY", "your_openrouter_api_key")
+GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY", "your_google_api_key")
+SEARCH_ENGINE_ID = st.secrets.get("SEARCH_ENGINE_ID", "your_search_engine_id")
+MONGO_URI = st.secrets.get("MONGO_URI", "your_mongo_uri")
+SITE_URL = st.secrets.get("SITE_URL", "https://cogniaichatbot-njrm4zgp25bhfwcqvpgjpw.streamlit.app")
+SITE_NAME = st.secrets.get("SITE_NAME", "CogniChat Advanced")
 
 # OpenRouter Clients
 gemini_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
@@ -216,7 +216,7 @@ async def query_deepseek(query, user_id):
     return response.choices[0].message.content.strip()
 
 async def generate_image(query):
-    # Placeholder: Replace with actual image generation API (e.g., DALL-E via OpenRouter if available)
+    # Placeholder: Replace with actual image generation API if available
     return "Image generation not yet implemented. Describe what you'd like, and I’ll simulate a response!"
 
 # Profile UI
