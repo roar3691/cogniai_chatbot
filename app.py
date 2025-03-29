@@ -14,7 +14,7 @@ import base64
 import requests
 
 # Environment Variables (Set in Streamlit Cloud secrets)
-OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY")
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
 GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY")
 SEARCH_ENGINE_ID = st.secrets.get("SEARCH_ENGINE_ID")
 MONGO_URI = st.secrets.get("MONGO_URI")
