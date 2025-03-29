@@ -1,6 +1,6 @@
 streamlit==1.44.0
 pymongo==4.5.0
-openai==1.35.3
+openai==1.30.0
 google-api-python-client==2.100.0
 PyPDF2==3.0.1
 requests==2.32.3
