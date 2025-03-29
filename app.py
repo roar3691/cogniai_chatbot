@@ -14,10 +14,10 @@ import base64
 import requests
 
 # Environment Variables (Set in Hugging Face Spaces secrets or replace here)
-GOOGLE_API_KEY = "AIzaSyBaCx9eHQYUjaCH-iJdzmR9LCszYKnWTtc"
-SEARCH_ENGINE_ID = "e6da2fcb52c994349"
-OPENROUTER_API_KEY = "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"
-MONGO_URI = "mongodb+srv://raghuyanala:Kanna%401249@cluster0.wkvyw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+SEARCH_ENGINE_ID = os.getenv("SEARCH_ENGINE_ID")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+MONGO_URI = os.getenv("MONGO_URI")
 SITE_NAME = "CogniChat Advanced"
 
 # OpenRouter Clients
