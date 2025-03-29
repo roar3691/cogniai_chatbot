@@ -14,12 +14,12 @@ import base64
 import requests
 
 # Environment Variables (Set in Streamlit Cloud secrets)
-OPENROUTER_API_KEY = st.secrets.get("OPENROUTER_API_KEY")
-GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY")
-SEARCH_ENGINE_ID = st.secrets.get("SEARCH_ENGINE_ID")
-MONGO_URI = st.secrets.get("MONGO_URI")
-SITE_URL = st.secrets.get("SITE_URL")
-SITE_NAME = st.secrets.get("SITE_NAME")
+GOOGLE_API_KEY = "AIzaSyBaCx9eHQYUjaCH-iJdzmR9LCszYKnWTtc"
+SEARCH_ENGINE_ID = "e6da2fcb52c994349"
+OPENROUTER_API_KEY = "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"
+MONGO_URI = "mongodb+srv://raghuyanala:Kanna%401249@cluster0.wkvyw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+SITE_URL = "https://cogniaichatbot-njrm4zgp25bhfwcqvpgjpw.streamlit.app"
+SITE_NAME = "CogniChat Advanced"
 
 # OpenRouter Clients with Error Handling
 try:
