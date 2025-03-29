@@ -14,18 +14,22 @@ import base64
 import requests
 
 # Environment Variables (Set in Streamlit Cloud secrets)
-OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
-GOOGLE_API_KEY = st.secrets.get("GOOGLE_API_KEY")
-SEARCH_ENGINE_ID = st.secrets.get("SEARCH_ENGINE_ID")
-MONGO_URI = st.secrets.get("MONGO_URI")
-SITE_URL = st.secrets.get("SITE_URL")
-SITE_NAME = st.secrets.get("SITE_NAME")
+try:
+    OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+    GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
+    SEARCH_ENGINE_ID = st.secrets["SEARCH_ENGINE_ID"]
+    MONGO_URI = st.secrets["MONGO_URI"]
+    SITE_URL = st.secrets["SITE_URL"]
+    SITE_NAME = st.secrets["SITE_NAME"]
+except KeyError as e:
+    st.error(f"Missing required secret: {e}. Please set it in Streamlit Cloud secrets.")
+    st.stop()
 
 # OpenRouter Clients with Error Handling
 try:
     gemini_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
     deepseek_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
-except TypeError as e:
+except Exception as e:
     st.error(f"Failed to initialize OpenAI clients: {e}")
     st.stop()
 
@@ -193,12 +197,18 @@ async def query_gemini(query, user_id, image_data=None, file_content=None):
     if image_data:
         messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_data}"}})
 
-    response = gemini_client.chat.completions.create(
-        extra_headers={"HTTP-Referer": SITE_URL, "X-Title": SITE_NAME},
-        model="google/gemini-2.5-pro-exp-03-25:free",
-        messages=messages
-    )
-    return response.choices[0].message.content.strip()
+    try:
+        response = gemini_client.chat.completions.create(
+            extra_headers={
+                "HTTP-Referer": SITE_URL or "",
+                "X-Title": SITE_NAME or ""
+            },
+            model="google/gemini-2.5-pro-exp-03-25:free",
+            messages=messages
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"Error querying Gemini: {e}"
 
 async def query_deepseek(query, user_id):
     past_context = summarize_history(user_id)
@@ -206,21 +216,26 @@ async def query_deepseek(query, user_id):
     focus_score = heuristic_multi_scale_attention(query)
     focus_score = adjust_focus_score(query, focus_score)
     
-    response = deepseek_client.chat.completions.create(
-        extra_headers={"HTTP-Referer": SITE_URL, "X-Title": SITE_NAME},
-        model="deepseek/deepseek-chat-v3-0324:free",
-        messages=[{"role": "user", "content": f"""
-        **Query**: {query}
-        **Context**: {past_context}
-        **Preferences**: Tone: {preferences['tone']}, Detail: {preferences['detail_level']}
-        **Focus Score**: {focus_score:.2f}
-        Provide logical reasoning or deep analysis.
-        """}]
-    )
-    return response.choices[0].message.content.strip()
+    try:
+        response = deepseek_client.chat.completions.create(
+            extra_headers={
+                "HTTP-Referer": SITE_URL or "",
+                "X-Title": SITE_NAME or ""
+            },
+            model="deepseek/deepseek-chat-v3-0324:free",
+            messages=[{"role": "user", "content": f"""
+            **Query**: {query}
+            **Context**: {past_context}
+            **Preferences**: Tone: {preferences['tone']}, Detail: {preferences['detail_level']}
+            **Focus Score**: {focus_score:.2f}
+            Provide logical reasoning or deep analysis.
+            """}]
+        )
+        return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"Error querying DeepSeek: {e}"
 
 async def generate_image(query):
-    # Placeholder: Replace with actual image generation API if available
     return "Image generation not yet implemented. Describe what you'd like, and I’ll simulate a response!"
 
 # Profile UI
