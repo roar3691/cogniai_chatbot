@@ -19,8 +19,6 @@ try:
     GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
     SEARCH_ENGINE_ID = st.secrets["SEARCH_ENGINE_ID"]
     MONGO_URI = st.secrets["MONGO_URI"]
-    SITE_URL = st.secrets["SITE_URL"]
-    SITE_NAME = st.secrets["SITE_NAME"]
 except KeyError as e:
     st.error(f"Missing required secret: {e}. Please set it in Streamlit Cloud secrets.")
     st.stop()
@@ -199,10 +197,6 @@ async def query_gemini(query, user_id, image_data=None, file_content=None):
 
     try:
         response = gemini_client.chat.completions.create(
-            extra_headers={
-                "HTTP-Referer": SITE_URL or "",
-                "X-Title": SITE_NAME or ""
-            },
             model="google/gemini-2.5-pro-exp-03-25:free",
             messages=messages
         )
@@ -218,10 +212,6 @@ async def query_deepseek(query, user_id):
     
     try:
         response = deepseek_client.chat.completions.create(
-            extra_headers={
-                "HTTP-Referer": SITE_URL or "",
-                "X-Title": SITE_NAME or ""
-            },
             model="deepseek/deepseek-chat-v3-0324:free",
             messages=[{"role": "user", "content": f"""
             **Query**: {query}
