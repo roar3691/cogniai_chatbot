@@ -21,9 +21,13 @@ MONGO_URI = st.secrets.get("MONGO_URI")
 SITE_URL = st.secrets.get("SITE_URL")
 SITE_NAME = st.secrets.get("SITE_NAME")
 
-# OpenRouter Clients
-gemini_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
-deepseek_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
+# OpenRouter Clients with Error Handling
+try:
+    gemini_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
+    deepseek_client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=OPENROUTER_API_KEY)
+except TypeError as e:
+    st.error(f"Failed to initialize OpenAI clients: {e}")
+    st.stop()
 
 # MongoDB Setup
 client = MongoClient(MONGO_URI)
